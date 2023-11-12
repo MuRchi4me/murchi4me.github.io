@@ -178,14 +178,28 @@ document.getElementById("btn_sqrt").onclick = function() {
     }
     document.getElementById("btn_op_plus").onclick = function() { 
       if (a === '') return
-      selectedOperation = '+'
-      selectedOperation2 = '+'
-    }
-    document.getElementById("btn_op_minus").onclick = function() { 
+
+      if (selectedOperation === '+') {
+          expressionResult = (+a) + (+b);
+          a = expressionResult.toString();
+          b = '';
+          outputElement.innerHTML = a;
+      } else {
+          selectedOperation = '+';
+      }   
+  }
+  document.getElementById("btn_op_minus").onclick = function() { 
       if (a === '') return
-      selectedOperation = '-'
-      selectedOperation2 = '-'
-    }
+
+      if (selectedOperation === '-') {
+          expressionResult = (+a) - (+b);
+          a = expressionResult.toString();
+          b = '';
+          outputElement.innerHTML = a;
+      } else {
+          selectedOperation = '-';
+      }   
+  }
     document.getElementById("btn_op_div").onclick = function() { 
         if (a === '') return
         selectedOperation = '/'
@@ -201,71 +215,29 @@ document.getElementById("btn_sqrt").onclick = function() {
     }
     
     // кнопка расчёта результата
-    document.getElementById("btn_op_equal").onclick = function () {
-      if (a && b === '' && selectedOperation) {
-          switch (selectedOperation) {
-              case '**2':
-                  expressionResult = (+a) ** 2
-                  break;
-              case '**(1/2)':
-                  expressionResult = (+a) ** (1 / 2)
-                  break;
-              case '!':
-                  expressionResult = factorial(+a)
-                  break;
-
-          }
-      }
-      if (selectedOperation === '=') {
-          switch (selectedOperation2) {
-              case '+':
-                  expressionResult = (+a) + (+b2)
-                  break;
-              case '-':
-                  expressionResult = (+a) - (+b2)
-                  break;
-              case 'x':
-                  expressionResult = (+a) * (+b2)
-                  break;
-              case '/':
-                  expressionResult = (+a) / (+b2)
-                  break;
-          }
-      }
-      else if (a === '' || b === '' || !selectedOperation) {
-          return
-      }
-
-      switch (selectedOperation) {
-          case 'x':
-              expressionResult = (+a) * (+b)
-              b2 = b
-              break;
-          case '+':
-              expressionResult = (+a) + (+b)
-              b2 = b
-              break;
-          case '-':
-              expressionResult = (+a) - (+b)
-              b2 = b
-              break;
-          case '/':
-              expressionResult = (+a) / (+b)
-              b2 = b
-              break;
-          case '%':
-              expressionResult = (+a) % (+b)
-              break;
-      }
-
-
-
-      a = expressionResult.toString()
-      b = ''
-      selectedOperation = '='
-
-
-
-      outputElement.innerHTML = a
-  }
+    document.getElementById("btn_op_equal").onclick = function() { 
+        if (a === '' || b === '' || !selectedOperation)
+            return
+            
+        switch(selectedOperation) { 
+            case 'x':
+                expressionResult = (+a) * (+b)
+                break;
+            case '+':
+                expressionResult = (+a) + (+b)
+                break;
+            case '-':
+                expressionResult = (+a) - (+b)
+                break;
+            case '/':
+                expressionResult = (+a) / (+b)
+                break;
+        }
+      
+        a = expressionResult.toString()
+        b = ''
+        selectedOperation = null
+    
+        outputElement.innerHTML = a
+    }
     };
